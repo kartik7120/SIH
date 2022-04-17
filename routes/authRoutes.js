@@ -8,7 +8,22 @@ router.get("/register", (req, res) => {
 })
 
 router.get("/login", (req, res) => {
-    res.render("login");
+    res.render("Auth/login");
+})
+
+router.post("/login", async (req, res) => {
+    console.log(req.body);
+    const { username, password } = req.body;
+    const currUser = await User.findOne({ username });
+    if (currUser) {
+        if (currUser.password === password) {
+            console.log("LOGGED IN");
+        }
+        else
+            console.log("WRONG USERNAME OR PASSWORD");
+    }
+    else
+        res.send("NOT PRESENT IN THE DATABASE");
 })
 
 router.post("/register", async (req, res) => {
