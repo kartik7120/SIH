@@ -1,6 +1,10 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+const passport = require("passport");
+const session = require("express-session");
+const LocalStrategy = require("passport-local");
+const User = require("./models/userSchema");
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/SIH')
     .then(() => {
@@ -11,7 +15,20 @@ mongoose.connect('mongodb://localhost:27017/SIH')
 
 app.use(express.urlencoded({ extended: true }));
 
-const User = require("./models/userSchema");
+
+app.use(session({
+    secret: "lake",
+    resave: true,
+    saveUninitialized: true
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 const authRoutes = require("./routes/authRoutes");
 app.set("view engine", "ejs");
 app.set("views", "views");
