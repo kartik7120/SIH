@@ -9,6 +9,8 @@ mongoose.connect('mongodb://localhost:27017/SIH')
         console.log("OH NO ERROR", err);
     })
 
+app.use(express.urlencoded({ extended: true }));
+
 const User = require("./models/userSchema");
 const authRoutes = require("./routes/authRoutes");
 app.set("view engine", "ejs");
