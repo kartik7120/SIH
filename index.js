@@ -6,14 +6,16 @@ mongoose.connect('mongodb://localhost:27017/SIH')
     .then(() => {
         console.log("CONNECTED TO THE DATABASE");
     }).catch((err) => {
-        console.log("OH NO ERROR");
+        console.log("OH NO ERROR", err);
     })
 
 const User = require("./models/userSchema");
-
+const authRoutes = require("./routes/authRoutes");
 app.set("view engine", "ejs");
 app.set("views", "views");
 app.set("views", path.join(__dirname, "views"));
+
+app.use("/", authRoutes);
 
 app.get("/", (req, res) => {
     res.render("index");
