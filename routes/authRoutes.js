@@ -17,10 +17,10 @@ router.post("/login", async (req, res) => {
     const currUser = await User.findOne({ username });
     if (currUser) {
         if (currUser.password === password) {
-            console.log("LOGGED IN");
+            res.send("LOGGED IN");
         }
         else
-            console.log("WRONG USERNAME OR PASSWORD");
+            res.send("WRONG USERNAME OR PASSWORD");
     }
     else
         res.send("NOT PRESENT IN THE DATABASE");
